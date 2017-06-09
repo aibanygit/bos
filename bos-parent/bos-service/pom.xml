@@ -6,4 +6,15 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>bos-service</artifactId>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>com.aibany</groupId>
+      <artifactId>bos-dao</artifactId>
+      <version>${bos.version}</version>
+    </dependency>
+
+  </dependencies>
+
 </project>
