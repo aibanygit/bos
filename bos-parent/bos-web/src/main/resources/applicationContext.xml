@@ -39,7 +39,7 @@
 		<!-- 注入hibernate的映射文件 -->
 		<property name="mappingLocations">
 			<list>
-				<value>classpath:com/itheima/bos/domain/*.xml</value>
+				<value>classpath:com/aibany/bos/domain/*.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -49,11 +49,12 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<!-- 组件扫描 -->
-	<context:component-scan base-package="com.itheima.bos"/>
+	<!-- spring组件扫描 -->
+	<context:component-scan base-package="com.aibany.bos"/>
 	
 	<!-- 支持spring注解 -->
 	<context:annotation-config/>
-	
+
+	<!-- 事务支持注解 -->
 	<tx:annotation-driven/>
 </beans>
