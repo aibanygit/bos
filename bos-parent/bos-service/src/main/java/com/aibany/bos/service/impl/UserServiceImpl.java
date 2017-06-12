@@ -11,7 +11,7 @@ import com.aibany.bos.service.IUserService;
 
 
 @Service
-@Transactional
+@Transactional  /*事务注解*/
 public class UserServiceImpl implements IUserService{
 	@Autowired
 	private IUserDao userDao;

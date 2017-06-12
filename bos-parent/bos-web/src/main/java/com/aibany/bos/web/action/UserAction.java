@@ -11,8 +11,9 @@ import com.aibany.bos.service.IUserService;
 import com.aibany.bos.web.action.base.BaseAction;
 
 @Controller
-@Scope("prototype")
+@Scope("prototype") /*多例*/
 public class UserAction extends BaseAction<User> {
+
 	//属性驱动，接收页面输入的验证码
 	private String checkcode;
 	public void setCheckcode(String checkcode) {
@@ -55,5 +56,16 @@ public class UserAction extends BaseAction<User> {
 	public String logout(){
 		ServletActionContext.getRequest().getSession().invalidate();
 		return LOGIN;
+	}
+
+	/**
+	 * 修改密码
+	 */
+	public String editPassword() {
+
+		model.getPassword();
+
+
+		return NONE;
 	}
 }
