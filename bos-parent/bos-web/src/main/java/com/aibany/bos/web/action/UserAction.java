@@ -1,5 +1,7 @@
 package com.aibany.bos.web.action;
 
+import com.aibany.bos.utils.BOSUtils;
+import com.aibany.bos.utils.XLog;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,21 @@ public class UserAction extends BaseAction<User> {
 	 */
 	public String editPassword() {
 
-		model.getPassword();
+		String result = "1";
+		try {
+			User user = BOSUtils.getLoginUser();
+			userService.editPassword(user.getId(), model.getPassword());
+		}catch (Exception e) {
+			XLog.logger.error("Change Password Error:", e);
+			result = "0";
+		}
 
+		try {
+			ServletActionContext.getResponse().setContentType("text/html;charset=utf-8");
+			ServletActionContext.getResponse().getWriter().print(result);
+		}catch (Exception e) {
+			XLog.logger.error("Write Response Error", e);
+		}
 
 		return NONE;
 	}

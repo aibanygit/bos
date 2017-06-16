@@ -87,15 +87,13 @@
 		/**修改密码 确定点击**/
 		$("#btnEp").click(function(){
 			var check =  $("#editPasswordForm").form("validate");
-			alert("" + check);
 			if (check) {
 			    var npassword = $("#txtNewPass").val();
                 var opassword = $("#txtRePass").val();
 				if (npassword == opassword) {
 					$.post("userAction_editPassword.action",{"password":npassword},function(data){
 						if (data == '1') {
-                           $("#editPasswordForm").window("close");
-
+                            $("#editPwdWindow").window("close");
 						}else {
                             $.messager.alert("提示信息","密码修改失败!","error");
 						}
@@ -103,7 +101,8 @@
 				}else {
                     $.messager.alert("提示信息","两次密码输入不一致!","warning");
 				}
-
+                $("#txtNewPass").val(null);
+                $("#txtRePass").val(null);
 			}
 		});
 	});
@@ -251,11 +250,11 @@
 					<table cellpadding=3>
 						<tr>
 							<td>新密码：</td>
-							<td><input id="txtNewPass" type="Password" class="txt01 easyui-validatebox" required="required" data-options="validType:'length[6,18]'" /></td>
+							<td><input id="txtNewPass" type="Password" class="txt01 easyui-validatebox" required="required" data-options="validType:'length[5,18]'" /></td>
 						</tr>
 						<tr>
 							<td>确认密码：</td>
-							<td><input id="txtRePass" type="Password" class="txt01 easyui-validatebox"  required="required" data-options="validType:'length[6,18]'" /></td>
+							<td><input id="txtRePass" type="Password" class="txt01 easyui-validatebox"  required="required" data-options="validType:'length[5,18]'" /></td>
 						</tr>
 					</table>
 				</form>

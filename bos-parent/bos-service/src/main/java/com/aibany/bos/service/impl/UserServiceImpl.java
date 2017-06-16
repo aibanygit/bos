@@ -13,6 +13,7 @@ import com.aibany.bos.service.IUserService;
 @Service
 @Transactional  /*事务注解*/
 public class UserServiceImpl implements IUserService{
+
 	@Autowired
 	private IUserDao userDao;
 	/***
@@ -22,5 +23,11 @@ public class UserServiceImpl implements IUserService{
 		//使用MD5加密密码
 		String password = MD5Utils.md5(user.getPassword());
 		return userDao.findUserByUsernameAndPassword(user.getUsername(),password);
+	}
+
+	@Override
+	public void editPassword(String id, String password) {
+		password = MD5Utils.md5(password);
+		userDao.executeUpdate("user.editpassword",password,id);
 	}
 }
