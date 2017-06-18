@@ -165,7 +165,7 @@
 		</div>
 		
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="addStaffForm" action="staffAction_add.action" method="post">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">收派员信息</td>
@@ -183,18 +183,30 @@
 						<td>手机</td>
 						<td>
 							<script type="text/javascript">
-							//扩展手机号校验规则
-								$.extend($.fn.validatebox.defaults.rules, {
-                                    telephone: {
-                                        validator:function (value.param){
-											return value == $(param[0]).val();
-                                        },
-									},
-                                    message: 'Field do not match.'
-								});
+                                $(function(){
+                                    //为保存按钮绑定事件
+                                    $("#save").click(function(){
+                                        //表单校验，如果通过，提交表单
+                                        var v = $("#addStaffForm").form("validate");
+                                        if(v){
+                                            //$("#addStaffForm").form("submit");
+                                            $("#addStaffForm").submit();
+                                        }
+                                    });
 
+                                    var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+                                    //扩展手机号校验规则
+                                    $.extend($.fn.validatebox.defaults.rules, {
+                                        telephone: {
+                                            validator: function(value,param){
+                                                return reg.test(value);
+                                            },
+                                            message: '手机号输入有误！'
+                                        }
+                                    });
+                                });
 							</script>
-							<input type="text" name="telephone" class="easyui-validatebox" required="true"/>
+							<input type="text" name="telephone" data-options="validType:'telephone'" class="easyui-validatebox" required="true"/>
 						</td>
 					</tr>
 					<tr>
