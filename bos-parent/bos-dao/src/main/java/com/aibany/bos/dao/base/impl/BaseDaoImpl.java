@@ -6,9 +6,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.aibany.bos.utils.PageBean;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.aibany.bos.dao.base.IBaseDao;
 /**
@@ -65,5 +67,20 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 			query.setParameter(i++, object);
 		}
 		query.executeUpdate();
+	}
+
+	@Override
+	public void pageQuery(PageBean pageBean) {
+
+		//total
+		pageBean.getDetachedCriteria().setProjection(Projections.rowCount());
+		List<Long> countList = (List<Long>)this.getHibernateTemplate().findByCriteria(pageBean.getDetachedCriteria());
+		pageBean.setTotal(countList.get(0));
+
+		//rows data
+		pageBean.getDetachedCriteria().setProjection(null);
+		int offset = (pageBean.getCurrentPage() - 1) * pageBean.getPageSize();
+		this.getHibernateTemplate().findByCriteria(pageBean.getDetachedCriteria(),offset,  )
+
 	}
 }
