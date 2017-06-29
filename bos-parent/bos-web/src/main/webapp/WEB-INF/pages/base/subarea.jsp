@@ -187,8 +187,36 @@
 	        height: 400,
 	        resizable:false
 	    });
+
+		//将form表单的数据转为json
+        $.fn.serializeJson=function(){
+            var serializeObj={};
+            var array=this.serializeArray();
+            $(array).each(function(){
+                if(serializeObj[this.name]){
+                    if($.isArray(serializeObj[this.name])){
+                        serializeObj[this.name].push(this.value);
+                    }else{
+                        serializeObj[this.name]=[serializeObj[this.name],this.value];
+                    }
+                }else{
+                    serializeObj[this.name]=this.value;
+                }
+            });
+            return serializeObj;
+        };
+
+        //查询分区点击
 		$("#btn").click(function(){
-			alert("执行查询...");
+
+		    var p = $("#searchForm").serializeJson();
+
+		    //根据条件查询
+			$("#grid").datagrid("load",p);
+
+			//关闭查询窗口
+            $('#searchWindow').window("close");
+
 		});
 		
 	});
@@ -271,7 +299,7 @@
 	<!-- 查询分区 -->
 	<div class="easyui-window" title="查询分区窗口" id="searchWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form>
+			<form id="searchForm">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">查询条件</td>
