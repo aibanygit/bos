@@ -25,7 +25,7 @@
         <property name="citycode" type="java.lang.String">
             <column name="citycode" length="30" />
         </property>
-        <set name="subareas" inverse="true">
+        <set name="subareas" lazy="false" inverse="true"> <!-- 取消延迟加载，避免转json时再去加载数据-->
             <key>
                 <column name="region_id" length="32" />
             </key>

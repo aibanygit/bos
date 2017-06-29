@@ -39,7 +39,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 	public void save(T entity) {
 		this.getHibernateTemplate().save(entity);
 	}
-	
+
+	@Override
+	public void saveOrUpdate(T entity) {
+		this.getHibernateTemplate().saveOrUpdate(entity);
+	}
+
 	public void delete(T entity) {
 		this.getHibernateTemplate().delete(entity);
 	}
@@ -79,8 +84,8 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 		//rows data
 		pageBean.getDetachedCriteria().setProjection(null);
-		int offset = (pageBean.getCurrentPage() - 1) * pageBean.getPageSize();
-		this.getHibernateTemplate().findByCriteria(pageBean.getDetachedCriteria(),offset,  )
+		List rows = this.getHibernateTemplate().findByCriteria(pageBean.getDetachedCriteria(),pageBean.getOffset(), pageBean.getPageSize());
+		pageBean.setRows(rows);
 
 	}
 }

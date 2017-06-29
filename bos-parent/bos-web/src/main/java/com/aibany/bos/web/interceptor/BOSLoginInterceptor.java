@@ -22,11 +22,11 @@ public class BOSLoginInterceptor extends MethodFilterInterceptor{
 		XLog.logger.info("AccessPage:" + namespace + url);
 
 		//从session中获取用户对象
-		User user = BOSUtils.getLoginUser();
-		if(user == null){
-			//没有登录，跳转到登录页面
-			return "login";
-		}
+//		User user = BOSUtils.getLoginUser();
+//		if(user == null){
+//			//没有登录，跳转到登录页面
+//			return "login";
+//		}
 		//放行
 		return invocation.invoke();
 	}

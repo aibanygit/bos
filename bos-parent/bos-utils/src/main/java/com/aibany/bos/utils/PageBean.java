@@ -1,5 +1,6 @@
 package com.aibany.bos.utils;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.criterion.DetachedCriteria;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class PageBean<T> {
     private long total;
     private List<T> rows;
 
+    @JSONField(serialize = false)
     public int getCurrentPage() {
         return currentPage;
     }
@@ -25,6 +27,7 @@ public class PageBean<T> {
         this.currentPage = currentPage;
     }
 
+    @JSONField(serialize = false)
     public int getPageSize() {
         return pageSize;
     }
@@ -49,11 +52,22 @@ public class PageBean<T> {
         this.rows = rows;
     }
 
+    @JSONField(serialize = false)
     public DetachedCriteria getDetachedCriteria() {
         return detachedCriteria;
     }
 
     public void setDetachedCriteria(DetachedCriteria detachedCriteria) {
         this.detachedCriteria = detachedCriteria;
+    }
+
+    @JSONField(serialize = false)
+    public int getOffset() {
+
+        int offset = (this.getCurrentPage() - 1) * this.getPageSize();
+        if (offset < 0) {
+            offset = 0;
+        }
+        return offset;
     }
 }
