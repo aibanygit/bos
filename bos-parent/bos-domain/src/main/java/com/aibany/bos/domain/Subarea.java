@@ -1,7 +1,5 @@
 package com.aibany.bos.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 /**
  * 分区
  */
@@ -12,13 +10,17 @@ public class Subarea implements java.io.Serializable {
 
 	private String id;
 	private Decidedzone decidedzone;
-	private Region region;
+	private Region region;//分区对应的区域
 	private String addresskey;
 	private String startnum;
 	private String endnum;
 	private String single;
 	private String position;
 
+	public String getSubareaid(){
+		return id;
+	}
+	
 	// Constructors
 
 	/** default constructor */
@@ -46,6 +48,7 @@ public class Subarea implements java.io.Serializable {
 
 	// Property accessors
 
+
 	public String getId() {
 		return this.id;
 	}
@@ -54,7 +57,6 @@ public class Subarea implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@JSONField(serialize = false)
 	public Decidedzone getDecidedzone() {
 		return this.decidedzone;
 	}

@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by mac on 2017/6/18.
@@ -57,7 +58,7 @@ public class StaffAction extends BaseAction<Staff>{
     public String pageQuery() throws IOException{
 
         staffService.pageQuery(pageBean);
-        outputJson(pageBean);
+        outputJson(pageBean,new String[] {"decidedzones"});
 
         return NONE;
     }
@@ -65,6 +66,16 @@ public class StaffAction extends BaseAction<Staff>{
     public String deleteBatch()  {
         staffService.deleteBatch(ids);
         return LIST;
+    }
+
+    /**
+     * 查询所有未删除的取派员
+     */
+    public String listajax() {
+
+        List<Staff> list = staffService.findValidList();
+        outputJson(list);
+        return NONE;
     }
 
 

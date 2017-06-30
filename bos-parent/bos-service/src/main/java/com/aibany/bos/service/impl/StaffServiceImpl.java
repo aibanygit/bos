@@ -5,9 +5,13 @@ import com.aibany.bos.domain.Staff;
 import com.aibany.bos.service.IStaffService;
 import com.aibany.bos.utils.PageBean;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by mac on 2017/6/18.
@@ -47,5 +51,13 @@ public class StaffServiceImpl implements IStaffService{
     @Override
     public void update(Staff staff) {
         staffDao.update(staff);
+    }
+
+    @Override
+    public List<Staff> findValidList() {
+
+        DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Staff.class);
+        detachedCriteria.add(Restrictions.ne("deltag", "1"));
+        return staffDao.findByCriteria(detachedCriteria);
     }
 }

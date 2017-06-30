@@ -72,7 +72,7 @@ public class RegionAction extends BaseAction<Region>{
     public String pageQuery() throws Exception{
 
         regionService.pageQuery(pageBean);
-        outputJson(pageBean);
+        outputJson(pageBean,new String[]{"region","decidedzone"});
 
         return NONE;
     }

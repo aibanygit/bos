@@ -10,6 +10,7 @@ import com.aibany.bos.utils.PageBean;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import com.aibany.bos.dao.base.IBaseDao;
@@ -84,8 +85,14 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 		//rows data
 		pageBean.getDetachedCriteria().setProjection(null);
+		pageBean.getDetachedCriteria().setResultTransformer(DetachedCriteria.ROOT_ENTITY);
 		List rows = this.getHibernateTemplate().findByCriteria(pageBean.getDetachedCriteria(),pageBean.getOffset(), pageBean.getPageSize());
 		pageBean.setRows(rows);
 
+	}
+
+	@Override
+	public List<T> findByCriteria(DetachedCriteria detachedCriteria) {
+		return (List<T>)this.getHibernateTemplate().findByCriteria(detachedCriteria);
 	}
 }

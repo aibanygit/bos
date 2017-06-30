@@ -43,8 +43,10 @@
 		$('#searchWindow').window("open");
 	}
 	
+	//导出按钮对应的处理函数
 	function doExport(){
-		alert("导出");
+		//发送请求，请求Action，进行文件下载
+		window.location.href = "subareaAction_exportXls.action";
 	}
 	
 	function doImport(){
@@ -89,7 +91,7 @@
 		checkbox : true,
 	}, {
 		field : 'showid',
-		title : '分拣编号',
+		title : '分区编号',
 		width : 120,
 		align : 'center',
 		formatter : function(data,row ,index){
@@ -157,7 +159,7 @@
 			border : true,
 			rownumbers : true,
 			striped : true,
-			pageList: [20,50,100],
+			pageList: [10,20,],
 			pagination : true,
 			toolbar : toolbar,
 			url : "subareaAction_pageQuery.action",
@@ -187,38 +189,34 @@
 	        height: 400,
 	        resizable:false
 	    });
-
-		//将form表单的数据转为json
-        $.fn.serializeJson=function(){
-            var serializeObj={};
-            var array=this.serializeArray();
-            $(array).each(function(){
-                if(serializeObj[this.name]){
-                    if($.isArray(serializeObj[this.name])){
-                        serializeObj[this.name].push(this.value);
-                    }else{
-                        serializeObj[this.name]=[serializeObj[this.name],this.value];
-                    }
-                }else{
-                    serializeObj[this.name]=this.value;
-                }
-            });
-            return serializeObj;
-        };
-
-        //查询分区点击
-		$("#btn").click(function(){
-
-		    var p = $("#searchForm").serializeJson();
-
-		    //根据条件查询
-			$("#grid").datagrid("load",p);
-
-			//关闭查询窗口
-            $('#searchWindow').window("close");
-
-		});
 		
+		//定义一个工具方法，用于将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+		$.fn.serializeJson=function(){  
+            var serializeObj={};  
+            var array=this.serializeArray();
+            $(array).each(function(){  
+                if(serializeObj[this.name]){  
+                    if($.isArray(serializeObj[this.name])){  
+                        serializeObj[this.name].push(this.value);  
+                    }else{  
+                        serializeObj[this.name]=[serializeObj[this.name],this.value];  
+                    }  
+                }else{  
+                    serializeObj[this.name]=this.value;   
+                }  
+            });  
+            return serializeObj;  
+        }; 
+		
+		$("#btn").click(function(){
+			//将指定的form表单中所有的输入项转为json数据{key:value,key:value}
+			var p = $("#searchForm").serializeJson();
+			console.info(p);
+			//调用数据表格的load方法，重新发送一次ajax请求，并且提交参数
+			$("#grid").datagrid("load",p);
+			//关闭查询窗口
+			$("#searchWindow").window("close");
+		});
 	});
 
 	function doDblClickRow(){
@@ -236,34 +234,31 @@
 			<div class="datagrid-toolbar">
 				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" >保存</a>
 				<script type="text/javascript">
-					$(function () {
-						$("#save").click(function () {
+					$(function(){
+						$("#save").click(function(){
 							//表单校验
-							var r = $("#addSubareaForm").form("validate");
-							if (r) {
-							    $("#addSubareaForm").submit();
+							var r = $("#addSubareaForm").form('validate');
+							if(r){
+								$("#addSubareaForm").submit();
 							}
-                        });
-                    });
+						});
+					});
 				</script>
 			</div>
 		</div>
 		
 		<div style="overflow:auto;padding:5px;" border="false">
-			<form method="post" action="subareaAction_add.action" id="addSubareaForm">
+			<form id="addSubareaForm" method="post" action="subareaAction_add.action">
 				<table class="table-edit" width="80%" align="center">
 					<tr class="title">
 						<td colspan="2">分区信息</td>
 					</tr>
-					<%--<tr>--%>
-						<%--<td>分拣编码</td>--%>
-						<%--<td><input type="text" name="id" class="easyui-validatebox" required="true"/></td>--%>
-					<%--</tr>--%>
 					<tr>
 						<td>选择区域</td>
 						<td>
 							<input class="easyui-combobox" name="region.id"  
-    							data-options="valueField:'id',textField:'name',mode:'remote',url:'regionAction_listajax.action'" />
+    							data-options="valueField:'id',textField:'name',mode:'remote',
+    							url:'regionAction_listajax.action'" />
 						</td>
 					</tr>
 					<tr>
