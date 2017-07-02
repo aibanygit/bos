@@ -5,6 +5,7 @@ import com.aibany.bos.dao.ISubareaDao;
 import com.aibany.bos.domain.Decidedzone;
 import com.aibany.bos.domain.Subarea;
 import com.aibany.bos.service.IDecidedzoneService;
+import com.aibany.bos.utils.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +38,10 @@ public class DecidedzoneServiceImpl implements IDecidedzoneService{
             //subareaDao.saveOrUpdate(subarea); //会自动更新
         }
 
+    }
+
+    @Override
+    public void pageQuery(PageBean pageBean) {
+        decidedzoneDao.pageQuery(pageBean);
     }
 }

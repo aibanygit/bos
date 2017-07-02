@@ -176,7 +176,7 @@
 </head>
 <body class="easyui-layout">
 	<div data-options="region:'north',border:false"
-		style="height:80px;padding:10px;background:url('./images/header_bg.png') no-repeat right;">
+		style="height:80px;padding:10px;background:url('./images/header_bg.png') no-repeat left;">
 		<div id="sessionInfoDiv"
 			style="position: absolute;right: 5px;top:10px;">
 			[<strong>${loginUser.username}</strong>]，欢迎你！

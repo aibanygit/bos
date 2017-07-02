@@ -24,6 +24,13 @@ public class DecidedzoneAction extends BaseAction<Decidedzone>{
         return LIST;
     }
 
+    public String pageQuery()  {
+
+        decidedzoneService.pageQuery(pageBean);
+        outputJson(pageBean, new String[] {"subareas", "decidedzones"});
+
+        return NONE;
+    }
 
     public String[] getSubareaid() {
         return subareaid;
